@@ -1,36 +1,36 @@
-import React from 'react';
+import "./App.css";
+import Clock from "./Components/Analog";
+import Analog from "./Components/Clock";
+import ClockWatcher from './Components/ClockWatcher.js';
 
-class Clock extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {date: new Date()};
-  }
 
-  componentDidMount() {
-    this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date()
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>Goodbye, world!</h1>
-        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
-      </div>
-    );
+const tzDict = {
+  'Us': {
+    country: 'en-US',
+    tz: { timeZone: 'America/New_York' }
+  },
+  "Fi": {
+    country: 'en-US',
+    tz: { timeZone: 'Europe/Istanbul' }
   }
 }
 
-export default Clock;
+function App() {
+  return (
+    <di>
+      {/* <Clock /> */}
+      <Clock 
+        name="UK Time:"
+        country= {tzDict.Fi.country}
+        timeZone={tzDict.Fi.tz}/>
+      {/* <ClockWatcher /> */}
+      <Clock 
+        name="UK Time:"
+        country= {tzDict.Us.country}
+        timeZone={tzDict.Us.tz}
+      />
+    </di>
+  );
+}
+
+export default App;
