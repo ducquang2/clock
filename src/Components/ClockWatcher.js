@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class ClockWatcher extends Component {
+export default class ClockWatcher extends Component {
   canvas = "";
   ctx = "";
   radius = "";
@@ -146,5 +146,3 @@ class ClockWatcher extends Component {
     );
   }
 }
-
-export default ClockWatcher;

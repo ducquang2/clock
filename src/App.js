@@ -1,6 +1,6 @@
 import "./App.css";
-import Clock from "./Components/Analog";
-import Analog from "./Components/Clock";
+import Analog from "./Components/Analog";
+import Clock from "./Components/Clock";
 import ClockWatcher from './Components/ClockWatcher.js';
 
 
