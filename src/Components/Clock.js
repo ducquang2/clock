@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export default class Analog extends Component {
+export default class Clock extends Component {
   constructor(props) {
     super(props);
     this.state = { date: this.getCurrentDatewithtimezone(this.props.country, this.props.timeZone) };
@@ -29,7 +29,6 @@ export default class Analog extends Component {
     else {
       const d = new Date()
       const r = new Date(d.toLocaleString(country, timeZone));
-      console.log(r, country, timeZone, 'ddd');
       return r;
     }
   }

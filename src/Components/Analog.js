@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-class Clock extends Component {
+export default class Analog extends Component {
   constructor(props) {
     super(props);
-    this.state = {date: this.getCurrentDatewithtimezone()};
+    this.state = {date: this.getCurrentDatewithtimezone(this.props.country, this.props.timeZone) };
   }
 
   componentDidMount() {
@@ -13,13 +13,13 @@ class Clock extends Component {
     );
   }
 
-  getCurrentDatewithtimezone(timezone) {
-    if (!timezone) {
+  getCurrentDatewithtimezone(country, timeZone) {
+    if (!timeZone && !country) {
       return new Date();
     }
     else {
-      const d = new Date();
-      const r = new Date(d.toLocaleString(timezone.country, timezone.tz));
+      const d = new Date()
+      const r = new Date(d.toLocaleString(country, timeZone));
       return r;
     }
   }
@@ -30,7 +30,7 @@ class Clock extends Component {
 
   tick() {
     this.setState({
-      date: this.getCurrentDatewithtimezone()
+      date: this.getCurrentDatewithtimezone(this.props.country, this.props.timeZone)
     });
   }
 
@@ -43,5 +43,3 @@ class Clock extends Component {
     );
   }
 }
-
-export default Analog;

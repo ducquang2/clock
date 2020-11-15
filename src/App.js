@@ -18,6 +18,10 @@ const tzDict = {
 function App() {
   return (
     <di>
+      <Analog
+        country= {tzDict.Fi.country}
+        timeZone= {tzDict.Fi.tz}
+      />
       <Clock 
         name="UK Time:"
         country= {tzDict.Fi.country}
