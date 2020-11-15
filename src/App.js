@@ -18,12 +18,10 @@ const tzDict = {
 function App() {
   return (
     <di>
-      {/* <Clock /> */}
       <Clock 
         name="UK Time:"
         country= {tzDict.Fi.country}
         timeZone={tzDict.Fi.tz}/>
-      {/* <ClockWatcher /> */}
       <Clock 
         name="UK Time:"
         country= {tzDict.Us.country}
