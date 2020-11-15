@@ -55,7 +55,6 @@ export default class ClockWatcher extends Component {
   }
 
   tick() {
-    console.log("Tick", this.state.date);
     this.setState({
       date: this.getCurrentDatewithtimezone(this.props.country, this.props.timeZone),
     });

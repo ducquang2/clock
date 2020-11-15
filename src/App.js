@@ -26,10 +26,10 @@ function App() {
         name="UK Time:"
         country= {tzDict.Fi.country}
         timeZone={tzDict.Fi.tz}/>
-      <Clock 
+      <ClockWatcher
         name="UK Time:"
-        country= {tzDict.Us.country}
-        timeZone={tzDict.Us.tz}
+        country= {tzDict.Fi.country}
+        timeZone={tzDict.Fi.tz}
       />
     </di>
   );
