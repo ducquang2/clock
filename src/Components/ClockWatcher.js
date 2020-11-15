@@ -7,8 +7,19 @@ export default class ClockWatcher extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { date: new Date(),
+    this.state = { date: this.getCurrentDatewithtimezone(this.props.country, this.props.timeZone),
        isPause: false };
+  }
+
+  getCurrentDatewithtimezone(country, timeZone) {
+    if (!timeZone && !country) {
+      return new Date();
+    }
+    else {
+      const d = new Date()
+      const r = new Date(d.toLocaleString(country, timeZone));
+      return r;
+    }
   }
 
   componentDidMount() {
@@ -46,7 +57,7 @@ export default class ClockWatcher extends Component {
   tick() {
     console.log("Tick", this.state.date);
     this.setState({
-      date: new Date(),
+      date: this.getCurrentDatewithtimezone(this.props.country, this.props.timeZone),
     });
     this.drawClock(this.state.date);
   }
