@@ -18,6 +18,10 @@ export default class Clock extends Component {
       date: this.getCurrentDatewithtimezone(this.country, this.tz),
       isPause: false,
     };
+
+    this.getDate = this.getDate.bind(this);
+    this.pause = this.pause.bind(this);
+    this.resume = this.resume.bind(this);
   }
 
   getCurrentDatewithtimezone(country, timeZone) {
@@ -54,6 +58,13 @@ export default class Clock extends Component {
   pause() {
     console.log("{ isPause: true }");
     this.setState({ isPause: true });
+  }
+
+  getDate() {
+    console.log("this", this);
+    alert(
+      `Hôm nay là thứ ${this.state.date.getDate()}/ ${this.state.date.getMonth()}/ ${this.state.date.getFullYear()}`
+    );
   }
 
   resume() {
@@ -151,8 +162,9 @@ export default class Clock extends Component {
     return (
       <div>
         <div>
-          <button onClick={() => this.pause()}>Pause</button>
-          <button onClick={() => this.resume()}>Resume</button>
+          <button onClick={this.pause}>Pause</button>
+          <button onClick={this.resume}>Resume</button>
+          <button onClick={this.getDate}>Hôm nay là thứ ngày mấy?</button>
         </div>
         <div>
           <canvas
