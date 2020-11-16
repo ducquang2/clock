@@ -12,6 +12,10 @@ const tzDict = {
   "Fi": {
     country: 'en-US',
     tz: { timeZone: 'Europe/Istanbul' }
+  },
+  "Am": {
+    country: 'en-Us',
+    tz: { timeZone: 'Europe/London'}
   }
 }
 
@@ -19,8 +23,8 @@ function App() {
   return (
     <di>
       <Analog
-        country= {tzDict.Fi.country}
-        timeZone= {tzDict.Fi.tz}
+        country= {tzDict.Am.country}
+        timeZone= {tzDict.Am.tz}
       />
       <Clock 
         country= {tzDict.Fi.country}
