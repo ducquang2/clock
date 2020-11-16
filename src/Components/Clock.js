@@ -1,40 +1,85 @@
 import React, { Component } from "react";
 
 export default class Clock extends Component {
+  canvas = "";
+  ctx = "";
+  radius = "";
+  country;
+  timeZone;
+  id;
+
   constructor(props) {
     super(props);
-    this.state = { date: this.getCurrentDatewithtimezone(this.props.country, this.props.timeZone) };
-    
-  }
+    this.country = this.props.country;
+    this.tz = this.props.timeZone;
+    this.id = this.props.id;
 
-  componentDidMount() {
-    const { canvas } = this.refs;
-    const ctx = canvas.getContext("2d");
-    let radius = canvas.height / 2;
-    ctx.translate(radius, radius);
-    radius = radius * 0.9;
-
-    let drawClock = () => {
-      this.drawFace(ctx, radius);
-      this.drawNumbers(ctx, radius);
-      this.drawTime(ctx, radius);
+    this.state = {
+      date: this.getCurrentDatewithtimezone(this.country, this.tz),
+      isPause: false,
     };
-    setInterval(drawClock, 1000);
   }
 
   getCurrentDatewithtimezone(country, timeZone) {
     if (!timeZone && !country) {
       return new Date();
-    }
-    else {
-      const d = new Date()
+    } else {
+      const d = new Date();
       const r = new Date(d.toLocaleString(country, timeZone));
       return r;
     }
   }
 
+  componentDidMount() {
+    // Draw clock watcher
+    this.canvas = document.getElementById("canvas-" + this.id);
+    this.ctx = this.canvas.getContext("2d");
+    this.radius = this.canvas.height / 2;
+    this.ctx.translate(this.radius, this.radius);
+    this.radius = this.radius * 0.9;
+
+    this.timerID = setInterval(() => {
+      if (!this.state.isPause) {
+        this.tick();
+      } else {
+        console.log("PAUSED");
+      }
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  pause() {
+    console.log("{ isPause: true }");
+    this.setState({ isPause: true });
+  }
+
+  resume() {
+    console.log("{ isPause: fasle }");
+    this.setState({ isPause: false });
+  }
+
+  tick() {
+    this.setState({
+      date: this.getCurrentDatewithtimezone(
+        this.props.country,
+        this.props.timeZone
+      ),
+    });
+    this.drawClock(this.state.date);
+  }
+
+  // Functions re-draw clock watcher
+  drawClock(date) {
+    this.drawFace(this.ctx, this.radius);
+    this.drawNumbers(this.ctx, this.radius);
+    this.drawTime(this.ctx, this.radius, date);
+  }
+
   drawFace(ctx, radius) {
-    let grad;
+    var grad;
     ctx.beginPath();
     ctx.arc(0, 0, radius, 0, 2 * Math.PI);
     ctx.fillStyle = "white";
@@ -53,8 +98,8 @@ export default class Clock extends Component {
   }
 
   drawNumbers(ctx, radius) {
-    let ang;
-    let num;
+    var ang;
+    var num;
     ctx.font = radius * 0.15 + "px arial";
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
@@ -70,11 +115,12 @@ export default class Clock extends Component {
     }
   }
 
-  drawTime(ctx, radius) {
-    let now = this.getCurrentDatewithtimezone(this.props.country, this.props.timeZone);
-    let hour = now.getHours();
-    let minute = now.getMinutes();
-    let second = now.getSeconds();
+  drawTime(ctx, radius, date) {
+    //var now = new Date();
+    var now = date;
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
     //hour
     hour = hour % 12;
     hour =
@@ -100,16 +146,22 @@ export default class Clock extends Component {
     ctx.stroke();
     ctx.rotate(-pos);
   }
+
   render() {
     return (
       <div>
-        <canvas
-          width="400px"
-          height="400px"
-          style={{ backgroundColor: "#333" }}
-          className="Canvas"
-          ref="canvas"
-        ></canvas>
+        <div>
+          <button onClick={() => this.pause()}>Pause</button>
+          <button onClick={() => this.resume()}>Resume</button>
+        </div>
+        <div>
+          <canvas
+            id={"canvas-" + this.id}
+            width="400"
+            height="400"
+            style={{ backgroundColor: "#333" }}
+          ></canvas>
+        </div>
       </div>
     );
   }
