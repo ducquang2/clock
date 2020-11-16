@@ -23,11 +23,9 @@ function App() {
         timeZone= {tzDict.Fi.tz}
       />
       <Clock 
-        name="UK Time:"
         country= {tzDict.Fi.country}
         timeZone={tzDict.Fi.tz}/>
       <ClockWatcher
-        name="UK Time:"
         country= {tzDict.Fi.country}
         timeZone={tzDict.Fi.tz}
       />
