@@ -1,17 +1,5 @@
 import React, { Component } from "react";
 
-function HidingState(stateof) {
-  if (!stateof.warn) {
-    return null;
-  }
-
-  return (
-    <div className="test">
-      Testing
-    </div>
-  );
-};
-
 export default class Clock extends Component {
   canvas = "";
   ctx = "";
@@ -23,9 +11,6 @@ export default class Clock extends Component {
 
   constructor(props) {
     super(props);
-    this.stateof = this.props.stateof;
-    this.stateof = {show: true}
-    this.handleToggleClick = this.handleToggleClick.bind(this);
     this.country = this.props.country;
     this.tz = this.props.timeZone;
     this.id = this.props.id;
@@ -33,6 +18,7 @@ export default class Clock extends Component {
     this.state = {
       date: this.getCurrentDatewithtimezone(this.country, this.tz),
       isPause: false,
+      show: true,
     };
   }
 
@@ -65,11 +51,6 @@ export default class Clock extends Component {
 
   componentWillUnmount() {
     clearInterval(this.timerID);
-  }
-
-  getDate() {
-    alert(`Hôm nay là thứ ${this.state.date.getDay()}`);
-    console.log(this);
   }
 
   pause() {
@@ -168,33 +149,39 @@ export default class Clock extends Component {
     ctx.rotate(-pos);
   }
 
-   
-  handleToggleClick() {
-    this.setState(prevState => ({
-      show: !prevState.show
-    }));
+  getDate() {
+    alert(`Hôm nay là thứ ${this.state.date.getDay() + 1}`);
+    console.log(this);
   }
+   
+  toggleChange = () => {
+    this.setState((state) => ({
+      show: !this.state.show,
+    }));
+  };
 
 
   render() {
+    const clock = (
+      <div>
+        <canvas
+          id={"canvas-" + this.id}
+          width="400"
+          height="400"
+          style={{ backgroundColor: "#333" }}
+        ></canvas>
+      </div>
+    );
     return (
       <div>
         <div>
-          <HidingState warn={this.stateof.show} />
-          <button onClick={this.handleToggleClick}>
-            {this.stateof.show ? 'Hide' : 'Show'}  
+          {this.state.show ? clock : ""}
+          <button onClick={this.toggleChange}>
+            {this.state.show ? 'Hide' : 'Show'}  
           </button>
           <button onClick={() => this.pause()}>Pause</button>
           <button onClick={() => this.resume()}>Resume</button>
           <button onClick={() => this.getDate()}>getDate</button>
-        </div>
-        <div>
-          <canvas
-            id={"canvas-" + this.id}
-            width="400"
-            height="400"
-            style={{ backgroundColor: "#333" }}
-          ></canvas>
         </div>
       </div>
     );
