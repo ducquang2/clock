@@ -23,6 +23,7 @@ export default class Clock extends Component {
 
   constructor(props) {
     super(props);
+    this.stateof = this.props.stateof;
     this.stateof = {show: true}
     this.handleToggleClick = this.handleToggleClick.bind(this);
     this.country = this.props.country;
@@ -185,6 +186,7 @@ export default class Clock extends Component {
           </button>
           <button onClick={() => this.pause()}>Pause</button>
           <button onClick={() => this.resume()}>Resume</button>
+          <button onClick={() => this.getDate()}>getDate</button>
         </div>
         <div>
           <canvas
