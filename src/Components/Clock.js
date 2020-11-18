@@ -1,5 +1,17 @@
 import React, { Component } from "react";
 
+function HidingState(stateof) {
+  if (!stateof.warn) {
+    return null;
+  }
+
+  return (
+    <div className="test">
+      Testing
+    </div>
+  );
+};
+
 export default class Clock extends Component {
   canvas = "";
   ctx = "";
@@ -8,8 +20,11 @@ export default class Clock extends Component {
   timeZone;
   id;
 
+
   constructor(props) {
     super(props);
+    this.stateof = {show: true}
+    this.handleToggleClick = this.handleToggleClick.bind(this);
     this.country = this.props.country;
     this.tz = this.props.timeZone;
     this.id = this.props.id;
@@ -49,6 +64,11 @@ export default class Clock extends Component {
 
   componentWillUnmount() {
     clearInterval(this.timerID);
+  }
+
+  getDate() {
+    alert(`Hôm nay là thứ ${this.state.date.getDay()}`);
+    console.log(this);
   }
 
   pause() {
@@ -147,10 +167,22 @@ export default class Clock extends Component {
     ctx.rotate(-pos);
   }
 
+   
+  handleToggleClick() {
+    this.setState(prevState => ({
+      show: !prevState.show
+    }));
+  }
+
+
   render() {
     return (
       <div>
         <div>
+          <HidingState warn={this.stateof.show} />
+          <button onClick={this.handleToggleClick}>
+            {this.stateof.show ? 'Hide' : 'Show'}  
+          </button>
           <button onClick={() => this.pause()}>Pause</button>
           <button onClick={() => this.resume()}>Resume</button>
         </div>
