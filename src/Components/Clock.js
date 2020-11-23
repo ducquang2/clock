@@ -8,7 +8,6 @@ export default class Clock extends Component {
   timeZone;
   id;
 
-
   constructor(props) {
     super(props);
     this.country = this.props.country;
@@ -33,13 +32,29 @@ export default class Clock extends Component {
   }
 
   componentDidMount() {
-    // Draw clock watcher
+    this.initClock(true);
+  }
+
+  initClock = (isSetNewInterval) => {
     this.canvas = document.getElementById("canvas-" + this.id);
     this.ctx = this.canvas.getContext("2d");
     this.radius = this.canvas.height / 2;
     this.ctx.translate(this.radius, this.radius);
     this.radius = this.radius * 0.9;
+    if (isSetNewInterval) {
+      this.initInterval();
+    }
+  };
 
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate", { prevProps, prevState });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  initInterval() {
     this.timerID = setInterval(() => {
       if (!this.state.isPause) {
         this.tick();
@@ -47,10 +62,6 @@ export default class Clock extends Component {
         console.log("PAUSED");
       }
     }, 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
   }
 
   pause() {
@@ -153,13 +164,12 @@ export default class Clock extends Component {
     alert(`Hôm nay là thứ ${this.state.date.getDay() + 1}`);
     console.log(this);
   }
-   
+
   toggleChange = () => {
     this.setState((state) => ({
       show: !this.state.show,
     }));
   };
-
 
   render() {
     const clock = (
@@ -168,16 +178,20 @@ export default class Clock extends Component {
           id={"canvas-" + this.id}
           width="400"
           height="400"
-          style={{ backgroundColor: "#333" }}
+          style={
+            !this.state.show
+              ? { backgroundColor: "#333", display: "none" }
+              : { backgroundColor: "#333" }
+          }
         ></canvas>
       </div>
     );
     return (
       <div>
         <div>
-          {this.state.show ? clock : ""}
+          {clock}
           <button onClick={this.toggleChange}>
-            {this.state.show ? 'Hide' : 'Show'}  
+            {this.state.show ? "Hide" : "Show"}
           </button>
           <button onClick={() => this.pause()}>Pause</button>
           <button onClick={() => this.resume()}>Resume</button>
